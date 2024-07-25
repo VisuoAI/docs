@@ -40,7 +40,7 @@
     "navigation": [
         {
             "group": "Get Started",
-            "pages": ["introduction", "interraction", "visualisation"]
+            "pages": ["quickstart"]
         },
         {
             "group": "Essentials",
@@ -48,8 +48,7 @@
                 "essentials/connections",
                 "essentials/conversations",
                 "essentials/chart-customizations",
-                "essentials/dashboards",
-                "essentials/faq"
+                "essentials/dashboards"
             ]
         }
     ],

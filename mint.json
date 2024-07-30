@@ -50,6 +50,10 @@
                 "essentials/chart-customizations",
                 "essentials/dashboards"
             ]
+        },
+        {
+            "group": "Guides",
+            "pages": ["guides/bigquery", "guides/mysql"]
         }
     ],
     "footerSocials": {

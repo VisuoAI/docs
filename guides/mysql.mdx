@@ -1,0 +1,116 @@
+---
+title: "Creating a MySQL Read-Only User"
+description: "Step-by-step guide to set up a secure read-only MySQL user"
+icon: "database"
+---
+
+<Note>
+    This guide will walk you through the process of creating a secure, read-only
+    MySQL user specifically for connecting to the application.
+</Note>
+
+## Why Create a Read-Only User?
+
+Creating a dedicated read-only user ensures:
+
+1. **Enhanced Security**: Limits potential data manipulation risks.
+2. **Data Integrity**: Prevents accidental modifications to your database.
+3. **Compliance**: Adheres to the principle of least privilege.
+
+## Step-by-Step Guide
+
+Follow these steps to create your MySQL read-only user:
+
+### 1. Create the Read-Only User
+
+First, we'll create a new user with a secure password:
+
+<CodeBlock language="sql">
+    CREATE USER 'readonly'@'%' IDENTIFIED BY 'your_secure_password';
+</CodeBlock>
+
+<Warning>
+    Replace 'your_secure_password' with a strong, unique password. Consider
+    using a password manager to generate and store this securely.
+</Warning>
+
+### 2. Grant Select Privileges
+
+Next, we'll grant the user SELECT privileges on all databases:
+
+<CodeBlock language="sql">GRANT SELECT ON *.* TO 'readonly'@'%';</CodeBlock>
+
+This allows the user to read data from any table in any database, but not modify it.
+
+### 3. Grant Additional Necessary Privileges
+
+For Visuo.AI to function correctly, we need to grant a few more privileges:
+
+<CodeBlock language="sql">
+    GRANT SHOW VIEW, SHOW DATABASES ON *.* TO 'readonly'@'%';
+</CodeBlock>
+
+These permissions allow the user to:
+
+-   `SHOW VIEW`: See the structure of views
+-   `SHOW DATABASES`: List available databases
+
+### 4. Apply the Changes
+
+Finally, we need to apply these changes:
+
+<CodeBlock language="sql">FLUSH PRIVILEGES;</CodeBlock>
+
+This command reloads the privileges table, ensuring our new user and its permissions take effect immediately.
+
+## Verifying the User Setup
+
+To confirm that the user has been set up correctly:
+
+1. Log in to MySQL as the new read-only user:
+
+    <CodeBlock language="bash">mysql -u readonly -p</CodeBlock>
+
+2. Try to select data from a table:
+
+    <CodeBlock language="sql">
+        SELECT * FROM database_name.table_name LIMIT 5;
+    </CodeBlock>
+
+3. Attempt to modify data (this should fail):
+    <CodeBlock language="sql">
+        INSERT INTO database_name.table_name (column1, column2) VALUES ('test',
+        'data');
+    </CodeBlock>
+
+<Tip>
+    If you can select data but not modify it, your read-only user is set up
+    correctly!
+</Tip>
+
+## Connecting to Visuo.AI
+
+When setting up your connection in Visuo.AI:
+
+1. Use the hostname of your MySQL server
+2. Enter 'readonly' as the username
+3. Use the secure password you set in step 1
+4. Specify the default database you want to analyze (if applicable)
+
+<Info>
+    For additional security, consider restricting the 'readonly' user to
+    specific IP addresses if Visuo.AI connects from known IP ranges.
+</Info>
+
+## Troubleshooting
+
+If you encounter issues:
+
+-   Ensure the user has been created successfully
+-   Verify that all necessary privileges have been granted
+-   Check that you're using the correct hostname, username, and password in Visuo.AI
+-   Confirm that your MySQL server allows remote connections if Visuo.AI is hosted externally
+
+For further assistance, consult your database administrator or the Visuo.AI support team.
+
+By following this guide, you've created a secure, read-only MySQL user that's perfectly suited for connecting to Visuo.AI. This setup ensures that your data remains protected while allowing Visuo.AI to perform its analysis effectively.

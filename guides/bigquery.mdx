@@ -1,0 +1,177 @@
+---
+title: "Creating a Service Key for BigQuery"
+description: "Comprehensive guide to create and set up a service key for BigQuery access, including API activation and role explanation"
+icon: "key"
+---
+
+<Note>
+    This guide will walk you through the process of creating a service key for
+    BigQuery, allowing secure programmatic access to your BigQuery resources.
+</Note>
+
+## Video Demonstration
+
+Before we dive into the written instructions, watch this video for a visual walkthrough of the process:
+
+<iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/2sBaIuogxFE"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+## Why Create a Service Key?
+
+A service key for BigQuery provides:
+
+1. **Secure Access**: Allows applications to authenticate with BigQuery without using personal credentials.
+2. **Controlled Permissions**: Enables fine-grained access control to BigQuery resources.
+3. **Automation**: Facilitates automated processes and CI/CD pipelines interacting with BigQuery.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+-   A Google Cloud Platform (GCP) account
+-   A project set up in GCP
+
+## Step-by-Step Guide
+
+Follow these steps to create a service key for BigQuery:
+
+### 1. Enable the BigQuery API
+
+<Steps>
+    <Step title="Open Google Cloud Console">
+        Go to
+        [https://console.cloud.google.com/](https://console.cloud.google.com/)
+    </Step>
+    <Step title="Navigate to APIs & Services">
+        In the left navigation menu, click on "APIs & Services" > "Dashboard"
+    </Step>
+    <Step title="Enable BigQuery API">
+        Click "+ ENABLE APIS AND SERVICES" at the top of the page Search for
+        "BigQuery API" and select it Click "ENABLE" if it's not already enabled
+    </Step>
+</Steps>
+
+### 2. Navigate to the IAM & Admin Console
+
+<Steps>
+    <Step title="Access IAM & Admin">
+        In the left navigation menu, click on "IAM & Admin" > "Service Accounts"
+    </Step>
+</Steps>
+
+### 3. Create a New Service Account
+
+<Steps>
+    <Step title="Click 'Create Service Account'">
+        At the top of the page, click the "Create Service Account" button
+    </Step>
+    <Step title="Enter Service Account Details">
+        - Service account name: Choose a descriptive name (e.g.,
+        "bigquery-admin") - Service account ID: This will auto-generate, but you
+        can customize it - Description: Optional, but recommended for clarity
+    </Step>
+    <Step title="Click 'Create and Continue'">
+        This will create the service account
+    </Step>
+</Steps>
+
+### 4. Assign Roles to the Service Account
+
+<Steps>
+    <Step title="Select Roles">
+        Choose the BigQuery Admin role for full access
+    </Step>
+    <Step title="Click 'Continue'">
+        After selecting roles, click "Continue"
+    </Step>
+    <Step title="Grant User Access (Optional)">
+        You can grant users access to this service account if needed
+    </Step>
+    <Step title="Click 'Done'">
+        This completes the service account creation
+    </Step>
+</Steps>
+
+<Info>
+  The BigQuery Admin role provides full control over BigQuery resources, including creating, updating, and deleting datasets, tables, and jobs. It's recommended for administrative access, but you can choose more restrictive roles based on your specific needs. Other roles include:
+
+-   BigQuery Data Viewer: Read-only access to data
+-   BigQuery User: Ability to run queries and jobs
+-   BigQuery Job User: Ability to create and manage jobs
+
+Choose the role that best fits your use case and follows the principle of least privilege.
+
+</Info>
+
+### 5. Create and Download the Key
+
+<Steps>
+    <Step title="Find Your Service Account">
+        In the Service Accounts list, find the account you just created
+    </Step>
+    <Step title="Access Key Management">
+        Click on the three dots in the "Actions" column and select "Manage keys"
+    </Step>
+    <Step title="Add Key">Click "Add Key" and choose "Create new key"</Step>
+    <Step title="Select Key Type">
+        Choose "JSON" as the key type and click "Create"
+    </Step>
+    <Step title="Save the Key">
+        The key file will automatically download. Keep this file secure!
+    </Step>
+</Steps>
+
+<Warning>
+    The JSON key file contains sensitive information. Never commit it to version
+    control or share it publicly.
+</Warning>
+
+## Using the Service Key
+
+To use the service key in your application:
+
+1. Set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to the path of your JSON key file:
+
+<CodeBlock language="bash">
+    export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/keyfile.json"
+</CodeBlock>
+
+2. In your application code, use the BigQuery client libraries. The client libraries will automatically use the credentials from the environment variable.
+
+<CodeBlock language="python">
+from google.cloud import bigquery
+
+client = bigquery.Client()
+query = "SELECT \* FROM `your_project.your_dataset.your_table` LIMIT 10"
+query_job = client.query(query)
+
+for row in query_job:
+print(row)
+
+</CodeBlock>
+
+<Tip>
+    Always use environment variables or secure secret management solutions to
+    handle service key files in production environments.
+</Tip>
+
+## Best Practices
+
+-   Rotate your service account keys regularly
+-   Use the principle of least privilege when assigning roles
+-   Monitor and audit the usage of service accounts
+
+<Info>
+    For more detailed information on BigQuery security and best practices, refer
+    to the [official Google Cloud
+    documentation](https://cloud.google.com/bigquery/docs/best-practices-security).
+</Info>
+
+By following this guide and watching the video demonstration, you've learned how to create a service key for BigQuery, enabling secure programmatic access to your BigQuery resources. Remember to keep your key secure and follow best practices for key management.

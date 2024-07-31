@@ -39,19 +39,6 @@
     ],
     "navigation": [
         {
-            "group": "Get Started",
-            "pages": ["quickstart"]
-        },
-        {
-            "group": "Essentials",
-            "pages": [
-                "essentials/connections",
-                "essentials/conversations",
-                "essentials/chart-customizations",
-                "essentials/dashboards"
-            ]
-        },
-        {
             "group": "Guides",
             "pages": ["guides/bigquery", "guides/mysql"]
         }

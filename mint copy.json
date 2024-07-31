@@ -75,6 +75,19 @@
                 "api-reference/endpoint/create",
                 "api-reference/endpoint/delete"
             ]
+        },
+        {
+            "group": "Get Started",
+            "pages": ["quickstart"]
+        },
+        {
+            "group": "Essentials",
+            "pages": [
+                "essentials/connections",
+                "essentials/conversations",
+                "essentials/chart-customizations",
+                "essentials/dashboards"
+            ]
         }
     ],
     "footerSocials": {

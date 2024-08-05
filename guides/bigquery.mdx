@@ -133,35 +133,6 @@ Choose the role that best fits your use case and follows the principle of least 
     control or share it publicly.
 </Warning>
 
-## Using the Service Key
-
-To use the service key in your application:
-
-1. Set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to the path of your JSON key file:
-
-<CodeBlock language="bash">
-    export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/keyfile.json"
-</CodeBlock>
-
-2. In your application code, use the BigQuery client libraries. The client libraries will automatically use the credentials from the environment variable.
-
-<CodeBlock language="python">
-from google.cloud import bigquery
-
-client = bigquery.Client()
-query = "SELECT \* FROM `your_project.your_dataset.your_table` LIMIT 10"
-query_job = client.query(query)
-
-for row in query_job:
-print(row)
-
-</CodeBlock>
-
-<Tip>
-    Always use environment variables or secure secret management solutions to
-    handle service key files in production environments.
-</Tip>
-
 ## Best Practices
 
 -   Rotate your service account keys regularly
@@ -174,4 +145,4 @@ print(row)
     documentation](https://cloud.google.com/bigquery/docs/best-practices-security).
 </Info>
 
-By following this guide and watching the video demonstration, you've learned how to create a service key for BigQuery, enabling secure programmatic access to your BigQuery resources. Remember to keep your key secure and follow best practices for key management.
+By following this guide and watching the video demonstration, you've learned how to create a service key for BigQuery. Remember to keep your key secure and follow best practices for key management.

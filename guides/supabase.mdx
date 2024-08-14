@@ -1,0 +1,156 @@
+---
+title: "Creating a Supabase Read-Only User"
+description: "Step-by-step guide to set up a secure read-only Supabase user"
+icon: "database"
+---
+
+<Note>
+    This guide will walk you through the process of creating a secure, read-only
+    Supabase user specifically for connecting to the application. Supabase uses
+    PostgreSQL, so some steps will be similar to PostgreSQL setup.
+</Note>
+
+## Why Create a Read-Only User?
+
+Creating a dedicated read-only user ensures:
+
+1. **Enhanced Security**: Limits potential data manipulation risks.
+2. **Data Integrity**: Prevents accidental modifications to your database.
+3. **Compliance**: Adheres to the principle of least privilege.
+
+## Step-by-Step Guide
+
+Follow these steps to create your Supabase read-only user:
+
+### 1. Access Supabase SQL Editor
+
+First, log in to your Supabase project and navigate to the SQL Editor.
+
+### 2. Create the Read-Only User
+
+Create a new user with a secure password:
+
+<CodeBlock language="sql">
+    CREATE USER readonly WITH PASSWORD 'your_secure_password';
+</CodeBlock>
+
+<Warning>
+    Replace 'your_secure_password' with a strong, unique password. Consider
+    using a password manager to generate and store this securely.
+</Warning>
+
+### 3. Grant Connect Privilege
+
+Grant the user the ability to connect to the database:
+
+<CodeBlock language="sql">
+    GRANT CONNECT ON DATABASE postgres TO readonly;
+</CodeBlock>
+
+<Note>In Supabase, the main database is typically named 'postgres'.</Note>
+
+### 4. Grant Schema Usage
+
+Grant usage on the public schema and any other schemas you want the user to access:
+
+<CodeBlock language="sql">GRANT USAGE ON SCHEMA public TO readonly;</CodeBlock>
+
+### 5. Grant Select Privileges
+
+Grant SELECT privileges on all tables in the schema:
+
+<CodeBlock language="sql">
+    GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonly; ALTER DEFAULT
+    PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO readonly;
+</CodeBlock>
+
+### 6. Grant Additional Necessary Privileges
+
+For full read-only access, grant privileges on sequences:
+
+<CodeBlock language="sql">
+    GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO readonly;
+</CodeBlock>
+
+### 7. Apply Row Level Security (RLS) Policies
+
+Ensure that appropriate Row Level Security policies are in place:
+
+<CodeBlock language="sql">
+ALTER TABLE your_table ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Read access for readonly user"
+ON your_table FOR SELECT
+TO readonly
+USING (true);
+
+</CodeBlock>
+
+<Tip>
+    Repeat the above for each table that needs RLS. Adjust the USING clause as
+    needed to restrict access to specific rows.
+</Tip>
+
+## Verifying the User Setup
+
+To confirm that the user has been set up correctly:
+
+1. Use the Supabase SQL Editor to run queries as the readonly user:
+
+    <CodeBlock language="sql">
+        SET ROLE readonly; SELECT * FROM your_table LIMIT 5;
+    </CodeBlock>
+
+2. Attempt to modify data (this should fail):
+    <CodeBlock language="sql">
+        SET ROLE readonly; INSERT INTO your_table (column1, column2) VALUES
+        ('test', 'data');
+    </CodeBlock>
+
+<Tip>
+    If you can select data but not modify it, your read-only user is set up
+    correctly!
+</Tip>
+
+## Connecting to Your Application
+
+When setting up your connection in your application:
+
+1. Use the Supabase project's connection string or host
+2. Enter 'readonly' as the username
+3. Use the secure password you set in step 2
+4. Use the default database name (typically 'postgres')
+
+<Info>
+    Supabase provides connection information in the project settings. Make sure
+    to use these details when configuring your application.
+</Info>
+
+## Supabase-Specific Notes
+
+-   **Row Level Security (RLS)**: Supabase heavily relies on RLS. Ensure your RLS policies are correctly set up for the readonly user.
+-   **Realtime Subscriptions**: If using Supabase's realtime features, ensure the readonly user has appropriate permissions for subscriptions.
+-   **Supabase API**: If you're using Supabase's API, you'll need to create an API key with read-only permissions instead of a database user.
+-   **Supabase Functions**: For serverless functions, use appropriate service roles that have read-only access.
+
+## Troubleshooting
+
+If you encounter issues:
+
+-   Check the Supabase logs in the dashboard for detailed error messages
+-   Verify that all necessary privileges have been granted
+-   Ensure the user has been created successfully
+-   Check that you're using the correct connection details in your application
+-   Verify that RLS policies are not overly restrictive
+
+For further assistance, consult the Supabase documentation or community forums.
+
+## Must-Know Details
+
+1. **Connection Pooling**: Supabase uses PgBouncer for connection pooling. Be aware of this when troubleshooting connection issues.
+2. **SSL Connections**: Supabase enforces SSL connections. Ensure your application supports this.
+3. **Automatic Backups**: Supabase provides automatic backups. The readonly user won't affect these, but it's good to be aware of this feature.
+4. **Schema Migrations**: When applying schema migrations, remember to update permissions for the readonly user if new tables or schemas are added.
+5. **Supabase Dashboard**: While you can create a readonly database user, many operations in Supabase are designed to be done through the dashboard or API.
+
+By following this guide, you've created a secure, read-only Supabase user that's perfectly suited for connecting to your application. This setup ensures that your data remains protected while allowing your application to perform necessary read operations effectively.

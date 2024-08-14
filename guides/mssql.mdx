@@ -1,0 +1,135 @@
+---
+title: "Creating a Microsoft SQL Server Read-Only User"
+description: "Step-by-step guide to set up a secure read-only MS SQL Server user"
+icon: "database"
+---
+
+<Note>
+    This guide will walk you through the process of creating a secure, read-only
+    Microsoft SQL Server user specifically for connecting to the application.
+</Note>
+
+## Why Create a Read-Only User?
+
+Creating a dedicated read-only user ensures:
+
+1. **Enhanced Security**: Limits potential data manipulation risks.
+2. **Data Integrity**: Prevents accidental modifications to your database.
+3. **Compliance**: Adheres to the principle of least privilege.
+
+## Step-by-Step Guide
+
+Follow these steps to create your MS SQL Server read-only user:
+
+### 1. Connect to SQL Server
+
+First, connect to your SQL Server instance using SQL Server Management Studio (SSMS) or any other SQL client with administrative privileges.
+
+### 2. Create a New Login
+
+Create a new SQL Server login:
+
+<CodeBlock language="sql">
+    USE [master] GO CREATE LOGIN [readonly_login] WITH PASSWORD =
+    'your_secure_password' GO
+</CodeBlock>
+
+<Warning>
+    Replace 'your_secure_password' with a strong, unique password. Consider
+    using a password manager to generate and store this securely.
+</Warning>
+
+### 3. Create a Database User
+
+Create a user in the specific database you want to grant read-only access to:
+
+<CodeBlock language="sql">
+    USE [YourDatabaseName] GO CREATE USER [readonly_user] FOR LOGIN
+    [readonly_login] GO
+</CodeBlock>
+
+### 4. Grant Read Permissions
+
+Grant the user read permissions by adding them to the db_datareader role:
+
+<CodeBlock language="sql">
+    USE [YourDatabaseName] GO ALTER ROLE db_datareader ADD MEMBER
+    [readonly_user] GO
+</CodeBlock>
+
+### 5. Grant View Definition Permission (Optional)
+
+If you want the user to be able to view object definitions:
+
+<CodeBlock language="sql">
+    USE [YourDatabaseName] GO GRANT VIEW DEFINITION TO [readonly_user] GO
+</CodeBlock>
+
+## Verifying the User Setup
+
+To confirm that the user has been set up correctly:
+
+1. Connect to SQL Server using the new read-only login:
+
+    <CodeBlock language="bash">
+        sqlcmd -S YourServerName -d YourDatabaseName -U readonly_login -P
+        your_secure_password
+    </CodeBlock>
+
+2. Try to select data from a table:
+
+    <CodeBlock language="sql">SELECT TOP 5 * FROM table_name; GO</CodeBlock>
+
+3. Attempt to modify data (this should fail):
+    <CodeBlock language="sql">
+        INSERT INTO table_name (column1, column2) VALUES ('test', 'data'); GO
+    </CodeBlock>
+
+<Tip>
+    If you can select data but not modify it, your read-only user is set up
+    correctly!
+</Tip>
+
+## Connecting to Your Application
+
+When setting up your connection in your application:
+
+1. Use the SQL Server instance name or IP address
+2. Enter 'readonly_login' as the username
+3. Use the secure password you set in step 2
+4. Specify the database name you granted access to
+
+<Info>
+    For additional security, consider using SQL Server's built-in encryption
+    features and restricting the login to specific IP addresses if your
+    application connects from known IP ranges.
+</Info>
+
+## MS SQL Server-Specific Notes
+
+-   **Windows Authentication**: If you're using Windows Authentication, you'll create a Windows user instead of a SQL login.
+-   **Contained Databases**: For contained databases, you create a contained database user instead of a server login.
+-   **Column-Level Permissions**: SQL Server allows for granular, column-level permissions if needed.
+-   **Always Encrypted**: If using Always Encrypted features, ensure the read-only user has appropriate permissions to access encrypted columns.
+
+## Troubleshooting
+
+If you encounter issues:
+
+-   Check the SQL Server error logs for detailed error messages
+-   Verify that all necessary permissions have been granted
+-   Ensure the login and user have been created successfully
+-   Confirm that your SQL Server allows remote connections if your application is hosted externally
+-   Check that you're using the correct server name, login name, password, and database name in your application
+
+For further assistance, consult your database administrator or refer to the official Microsoft SQL Server documentation.
+
+## Must-Know Details
+
+1. **Connection Strings**: Ensure your application's connection string is correctly formatted for SQL Server.
+2. **Firewall Settings**: SQL Server often requires specific firewall rules. Ensure these are configured correctly.
+3. **TLS Encryption**: By default, SQL Server uses encryption for all connections. Ensure your client supports this.
+4. **Resource Governor**: Consider using Resource Governor to limit the resources available to the read-only user if needed.
+5. **Auditing**: SQL Server provides robust auditing capabilities. Consider enabling auditing for the read-only user's actions.
+
+By following this guide, you've created a secure, read-only Microsoft SQL Server user that's perfectly suited for connecting to your application. This setup ensures that your data remains protected while allowing your application to perform necessary read operations effectively.

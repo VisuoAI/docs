@@ -1,0 +1,129 @@
+---
+title: "Creating a PostgreSQL Read-Only User"
+description: "Step-by-step guide to set up a secure read-only PostgreSQL user"
+icon: "database"
+---
+
+<Note>
+    This guide will walk you through the process of creating a secure, read-only
+    PostgreSQL user specifically for connecting to the application.
+</Note>
+
+## Why Create a Read-Only User?
+
+Creating a dedicated read-only user ensures:
+
+1. **Enhanced Security**: Limits potential data manipulation risks.
+2. **Data Integrity**: Prevents accidental modifications to your database.
+3. **Compliance**: Adheres to the principle of least privilege.
+
+## Step-by-Step Guide
+
+Follow these steps to create your PostgreSQL read-only user:
+
+### 1. Connect to PostgreSQL
+
+First, connect to your PostgreSQL server as a superuser (usually 'postgres'):
+
+<CodeBlock language="bash">psql -U postgres</CodeBlock>
+
+### 2. Create the Read-Only User
+
+Create a new user with a secure password:
+
+<CodeBlock language="sql">
+    CREATE USER readonly WITH PASSWORD 'your_secure_password';
+</CodeBlock>
+
+<Warning>
+    Replace 'your_secure_password' with a strong, unique password. Consider
+    using a password manager to generate and store this securely.
+</Warning>
+
+### 3. Grant Connect Privilege
+
+Grant the user the ability to connect to the database:
+
+<CodeBlock language="sql">
+    GRANT CONNECT ON DATABASE your_database TO readonly;
+</CodeBlock>
+
+### 4. Grant Schema Usage
+
+Grant usage on the schema(s) you want the user to access:
+
+<CodeBlock language="sql">GRANT USAGE ON SCHEMA public TO readonly;</CodeBlock>
+
+### 5. Grant Select Privileges
+
+Grant SELECT privileges on all tables in the schema:
+
+<CodeBlock language="sql">
+    GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonly; ALTER DEFAULT
+    PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO readonly;
+</CodeBlock>
+
+### 6. Grant Additional Necessary Privileges
+
+For the application to function correctly, grant a few more privileges:
+
+<CodeBlock language="sql">
+    GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO readonly; GRANT SELECT ON
+    ALL SEQUENCES IN SCHEMA public TO readonly;
+</CodeBlock>
+
+These permissions allow the user to:
+
+-   Access and read sequences (often used for ID columns)
+-   See the structure of the database objects
+
+## Verifying the User Setup
+
+To confirm that the user has been set up correctly:
+
+1. Connect to PostgreSQL as the new read-only user:
+
+    <CodeBlock language="bash">psql -U readonly -d your_database</CodeBlock>
+
+2. Try to select data from a table:
+
+    <CodeBlock language="sql">SELECT * FROM table_name LIMIT 5;</CodeBlock>
+
+3. Attempt to modify data (this should fail):
+    <CodeBlock language="sql">
+        INSERT INTO table_name (column1, column2) VALUES ('test', 'data');
+    </CodeBlock>
+
+<Tip>
+    If you can select data but not modify it, your read-only user is set up
+    correctly!
+</Tip>
+
+## Connecting to Your Application
+
+When setting up your connection in your application:
+
+1. Use the hostname of your PostgreSQL server
+2. Enter 'readonly' as the username
+3. Use the secure password you set in step 2
+4. Specify the database name you granted access to in step 3
+
+<Info>
+    For additional security, consider using SSL connections and restricting the
+    'readonly' user to specific IP addresses if your application connects from
+    known IP ranges.
+</Info>
+
+## Troubleshooting
+
+If you encounter issues:
+
+-   Check the PostgreSQL log files for detailed error messages
+-   Verify that all necessary privileges have been granted
+-   Ensure the user has been created successfully
+-   Confirm that your PostgreSQL server allows remote connections if your application is hosted externally
+-   Check that you're using the correct hostname, username, password, and database name in your application
+
+For further assistance, consult your database administrator or refer to the official PostgreSQL documentation.
+
+By following this guide, you've created a secure, read-only PostgreSQL user that's perfectly suited for connecting to your application. This setup ensures that your data remains protected while allowing your application to perform necessary read operations effectively.

@@ -1,0 +1,137 @@
+---
+title: "Creating a MariaDB Read-Only User"
+description: "Step-by-step guide to set up a secure read-only MariaDB user"
+icon: "database"
+---
+
+<Note>
+    This guide will walk you through the process of creating a secure, read-only
+    MariaDB user specifically for connecting to the application.
+</Note>
+
+## Why Create a Read-Only User?
+
+Creating a dedicated read-only user ensures:
+
+1. **Enhanced Security**: Limits potential data manipulation risks.
+2. **Data Integrity**: Prevents accidental modifications to your database.
+3. **Compliance**: Adheres to the principle of least privilege.
+
+## Step-by-Step Guide
+
+Follow these steps to create your MariaDB read-only user:
+
+### 1. Connect to MariaDB
+
+First, connect to your MariaDB server as a user with administrative privileges:
+
+<CodeBlock language="bash">mysql -u root -p</CodeBlock>
+
+### 2. Create the Read-Only User
+
+Create a new user with a secure password:
+
+<CodeBlock language="sql">
+    CREATE USER 'readonly'@'%' IDENTIFIED BY 'your_secure_password';
+</CodeBlock>
+
+<Warning>
+    Replace 'your_secure_password' with a strong, unique password. Consider
+    using a password manager to generate and store this securely.
+</Warning>
+
+### 3. Grant Select Privileges
+
+Grant SELECT privileges on all databases:
+
+<CodeBlock language="sql">GRANT SELECT ON *.* TO 'readonly'@'%';</CodeBlock>
+
+This allows the user to read data from any table in any database, but not modify it.
+
+### 4. Grant Additional Necessary Privileges
+
+For the application to function correctly, grant a few more privileges:
+
+<CodeBlock language="sql">
+    GRANT SHOW VIEW, SHOW DATABASES, PROCESS ON *.* TO 'readonly'@'%';
+</CodeBlock>
+
+These permissions allow the user to:
+
+-   `SHOW VIEW`: See the structure of views
+-   `SHOW DATABASES`: List available databases
+-   `PROCESS`: View information about threads executing in the server
+
+### 5. Apply the Changes
+
+Finally, apply these changes:
+
+<CodeBlock language="sql">FLUSH PRIVILEGES;</CodeBlock>
+
+This command reloads the privileges table, ensuring our new user and its permissions take effect immediately.
+
+## Verifying the User Setup
+
+To confirm that the user has been set up correctly:
+
+1. Log in to MariaDB as the new read-only user:
+
+    <CodeBlock language="bash">mysql -u readonly -p</CodeBlock>
+
+2. Try to select data from a table:
+
+    <CodeBlock language="sql">
+        SELECT * FROM database_name.table_name LIMIT 5;
+    </CodeBlock>
+
+3. Attempt to modify data (this should fail):
+    <CodeBlock language="sql">
+        INSERT INTO database_name.table_name (column1, column2) VALUES ('test',
+        'data');
+    </CodeBlock>
+
+<Tip>
+    If you can select data but not modify it, your read-only user is set up
+    correctly!
+</Tip>
+
+## Connecting to Your Application
+
+When setting up your connection in your application:
+
+1. Use the hostname of your MariaDB server
+2. Enter 'readonly' as the username
+3. Use the secure password you set in step 2
+4. Specify the default database you want to analyze (if applicable)
+
+<Info>
+    For additional security, consider restricting the 'readonly' user to
+    specific IP addresses if your application connects from known IP ranges.
+</Info>
+
+## MariaDB-Specific Notes
+
+-   **Compatibility with MySQL**: MariaDB is a fork of MySQL and maintains high compatibility. Most MySQL commands work identically in MariaDB.
+-   **Performance Schema**: If you're using the Performance Schema, ensure the read-only user has appropriate permissions to access it if needed.
+-   **Plugin-Specific Permissions**: If you're using any MariaDB-specific plugins, you may need to grant additional permissions related to those plugins.
+
+## Troubleshooting
+
+If you encounter issues:
+
+-   Check the MariaDB error log for detailed error messages
+-   Verify that all necessary privileges have been granted
+-   Ensure the user has been created successfully
+-   Confirm that your MariaDB server allows remote connections if your application is hosted externally
+-   Check that you're using the correct hostname, username, password, and database name in your application
+
+For further assistance, consult your database administrator or refer to the official MariaDB documentation.
+
+## Must-Know Details
+
+1. **my.cnf Configuration**: Ensure this file is configured to allow connections from your application's IP address.
+2. **SSL Connections**: For enhanced security, consider using SSL for connections. You may need to configure SSL certificates and adjust user privileges accordingly.
+3. **User Account Limits**: MariaDB allows setting resource limits for user accounts. Consider implementing these for the read-only user if needed.
+4. **Replication Considerations**: If you're using MariaDB replication, ensure the read-only user has appropriate permissions on replica servers if applicable.
+
+By following this guide, you've created a secure, read-only MariaDB user that's perfectly suited for connecting to your application. This setup ensures that your data remains protected while allowing your application to perform necessary read operations effectively.

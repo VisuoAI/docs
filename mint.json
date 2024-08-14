@@ -40,7 +40,14 @@
     "navigation": [
         {
             "group": "Guides",
-            "pages": ["guides/bigquery", "guides/mysql"]
+            "pages": [
+                "guides/bigquery",
+                "guides/mysql",
+                "guides/postgresql",
+                "guides/mariadb",
+                "guides/mssql",
+                "guides/supabase"
+            ]
         }
     ],
     "footerSocials": {

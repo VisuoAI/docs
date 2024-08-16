@@ -39,10 +39,6 @@
     ],
     "navigation": [
         {
-            "group": "Essentials",
-            "pages": ["essentials/context"]
-        },
-        {
             "group": "Guides",
             "pages": [
                 "guides/bigquery",
@@ -50,7 +46,8 @@
                 "guides/postgresql",
                 "guides/mariadb",
                 "guides/mssql",
-                "guides/supabase"
+                "guides/supabase",
+                "guides/context"
             ]
         }
     ],

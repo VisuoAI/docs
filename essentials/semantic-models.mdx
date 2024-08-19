@@ -1,0 +1,277 @@
+---
+title: "Semantic Model Guidelines for Business Context in Visuo"
+description: "A comprehensive guide to creating effective semantic models to enhance your Business Context in Visuo"
+icon: "diagram-project"
+---
+
+import { Tabs, Tab } from "nextra/components";
+import { Callout } from "nextra/components";
+
+# Semantic Model Guidelines for Business Context in Visuo
+
+Building on Visuo's powerful Business Context feature, these semantic model guidelines provide a structured framework to effectively set up AI-driven data exploration. These guidelines help you define entities, attributes, relationships, and key metrics specific to different business domains, enhancing the effectiveness of your Business Context.
+
+<Callout type="info">
+    Using these guidelines within your Business Context can significantly
+    improve setup quality and ensure that Visuo's AI has the necessary
+    information to perform accurate and relevant data analysis.
+</Callout>
+
+## Enhancing Your Business Context with Semantic Models
+
+1. **Structured Approach**: Create well-organized semantic models for your Business Context.
+2. **Consistency**: Ensure a standardized approach to data modeling across your organization.
+3. **AI Performance**: Provide clear context to Visuo's AI, improving the accuracy and relevance of insights.
+4. **Flexibility**: Easily adapt these guidelines to your specific business needs within the Business Context framework.
+
+## Semantic Model Guidelines for Various Domains
+
+Here are guidelines for creating semantic models in various business domains to enhance your Business Context in Visuo:
+
+<Tabs items={['E-commerce', 'Financial Services', 'Healthcare', 'Human Resources', 'Manufacturing']}>
+  <Tab title='E-commerce'>
+    ### E-commerce Semantic Model
+
+    Consider including these elements in your e-commerce semantic model:
+
+    ```yaml
+    Domain: E-commerce
+    Entities:
+      - Customer:
+          Attributes:
+            - Customer ID: Unique identifier
+            - Customer Name: Full name
+            - Email: Email address
+            - Registration Date: Date of account creation
+      - Product:
+          Attributes:
+            - Product ID: Unique identifier
+            - Product Name: Name of the product
+            - Category: Product category
+            - Price: Current price
+      - Order:
+          Attributes:
+            - Order ID: Unique identifier
+            - Order Date: Date of purchase
+            - Total Amount: Total order value
+            - Status: Current order status
+    Relationships:
+      - Customer places Order
+      - Order contains Product
+    Key Metrics:
+      - Customer Lifetime Value: Sum of Total Amount per Customer
+      - Product Performance: Count of Product in Orders
+      - Order Conversion Rate: Count of Orders / Count of unique Customers
+    ```
+
+    This guideline helps structure your Business Context for online retail, marketplaces, and digital storefronts. It focuses on customer behavior, product performance, and order analytics.
+
+    <Callout type="tip">
+      When setting up your Business Context, consider adding custom fields for customer segmentation or product ratings to enrich your e-commerce analytics.
+    </Callout>
+
+  </Tab>
+  
+  <Tab title='Financial Services'>
+    ### Financial Services Semantic Model
+
+    For financial services, consider a semantic model structure like this:
+
+    ```yaml
+    Domain: Financial Services
+    Entities:
+      - Account:
+          Attributes:
+            - Account ID: Unique identifier
+            - Account Type: Type of account
+            - Balance: Current balance
+            - Opening Date: Date account was opened
+      - Transaction:
+          Attributes:
+            - Transaction ID: Unique identifier
+            - Transaction Date: Date of transaction
+            - Amount: Transaction amount
+            - Type: Transaction type (debit/credit)
+      - Customer:
+          Attributes:
+            - Customer ID: Unique identifier
+            - Customer Name: Full name
+            - Risk Score: Risk assessment score
+    Relationships:
+      - Customer owns Account
+      - Account has Transactions
+    Key Metrics:
+      - Average Account Balance: Average of Balance
+      - Transaction Volume: Sum of Amount
+      - Customer Risk Distribution: Distribution of Risk Score
+    ```
+
+    This structure optimizes your Business Context for banks, investment firms, and fintech companies. It focuses on account management, transaction analysis, and risk assessment.
+
+    <Callout type="tip">
+      Within your Business Context, consider adding custom entities for loans, investments, or regulatory compliance to make this model more comprehensive for your specific financial service.
+    </Callout>
+
+  </Tab>
+
+  <Tab title='Healthcare'>
+    ### Healthcare Semantic Model
+
+    For healthcare services, consider structuring your semantic model like this:
+
+    ```yaml
+    Domain: Healthcare
+    Entities:
+      - Patient:
+          Attributes:
+            - Patient ID: Unique identifier
+            - Patient Name: Full name
+            - Date of Birth: Patient's birth date
+            - Gender: Patient's gender
+      - Encounter:
+          Attributes:
+            - Encounter ID: Unique identifier
+            - Encounter Date: Date of medical encounter
+            - Encounter Type: Type of medical encounter
+      - Diagnosis:
+          Attributes:
+            - Diagnosis ID: Unique identifier
+            - Diagnosis Code: ICD-10 code
+            - Description: Diagnosis description
+    Relationships:
+      - Patient has Encounters
+      - Encounter includes Diagnosis
+    Key Metrics:
+      - Patient Age Distribution: Calculated from Date of Birth
+      - Encounter Frequency: Count of Encounter ID per Patient
+      - Common Diagnoses: Frequency of Diagnosis Code
+    ```
+
+    This structure enhances your Business Context for hospitals, clinics, and healthcare management systems. It focuses on patient data, medical encounters, and diagnosis tracking.
+
+    <Callout type="tip">
+      When customizing your Business Context, consider adding entities for treatments, medications, or insurance claims to create a more comprehensive healthcare analytics model.
+    </Callout>
+
+  </Tab>
+
+  <Tab title='Human Resources'>
+    ### Human Resources Semantic Model
+
+    For HR analytics, consider a semantic model structure like this:
+
+    ```yaml
+    Domain: Human Resources
+    Entities:
+      - Employee:
+          Attributes:
+            - Employee ID: Unique identifier
+            - Employee Name: Full name
+            - Hire Date: Date of hiring
+            - Department: Employee's department
+      - Performance Review:
+          Attributes:
+            - Review ID: Unique identifier
+            - Review Date: Date of review
+            - Performance Score: Numerical score of performance
+      - Compensation:
+          Attributes:
+            - Compensation ID: Unique identifier
+            - Amount: Salary or wage amount
+            - Type: Compensation type (salary/hourly)
+    Relationships:
+      - Employee receives Performance Review
+      - Employee has Compensation
+    Key Metrics:
+      - Employee Tenure: Calculated from Hire Date
+      - Average Performance Score: Average of Performance Score
+      - Compensation by Department: Average of Amount grouped by Department
+    ```
+
+    This structure is ideal for HR departments and workforce management systems. It focuses on employee data, performance evaluations, and compensation analysis.
+
+    <Callout type="tip">
+      In your Business Context, consider adding entities for training programs, recruitment processes, or employee benefits to create a more comprehensive HR analytics model.
+    </Callout>
+
+  </Tab>
+
+  <Tab title='Manufacturing'>
+    ### Manufacturing Semantic Model
+
+    For manufacturing analytics, consider structuring your semantic model like this:
+
+    ```yaml
+    Domain: Manufacturing
+    Entities:
+      - Product:
+          Attributes:
+            - Product ID: Unique identifier
+            - Product Name: Name of the product
+            - Category: Product category
+      - Production Batch:
+          Attributes:
+            - Batch ID: Unique identifier
+            - Start Date: Production start date
+            - End Date: Production end date
+            - Quantity: Quantity produced
+      - Quality Control:
+          Attributes:
+            - QC ID: Unique identifier
+            - Inspection Date: Date of quality check
+            - Result: Pass/Fail result
+    Relationships:
+      - Product has Production Batches
+      - Production Batch undergoes Quality Control
+    Key Metrics:
+      - Production Efficiency: Quantity / (End Date - Start Date)
+      - Quality Pass Rate: Count of Pass in Result / Total QC ID
+      - Production Volume by Category: Sum of Quantity grouped by Category
+    ```
+
+    This structure is designed for manufacturing companies and production management systems. It focuses on product data, production batches, and quality control processes.
+
+    <Callout type="tip">
+      In your Business Context, consider adding entities for raw materials, equipment maintenance, or supply chain management to create a more comprehensive manufacturing analytics model.
+    </Callout>
+
+  </Tab>
+</Tabs>
+
+## Using Semantic Model Templates in Visuo
+
+To effectively use these semantic model templates in Visuo:
+
+1. **Select Your Domain**: Choose a template that matches your business domain.
+2. **Map Your Data**: Replace placeholder column names (e.g., [CUSTOMER_ID_COLUMN]) with your actual database column names.
+3. **Customize**: Add or modify entities, attributes, relationships, and key metrics as needed.
+4. **Implement**: Use the completed template to structure your Business Context in Visuo.
+5. **Refine**: Continuously improve your semantic model based on insights and evolving business needs.
+
+<Callout type="tip">
+    Visuo allows you to save customized templates for future use, making it easy
+    to create domain-specific models for your organization.
+</Callout>
+
+## Best Practices
+
+1. Start with core entities and gradually add complexity.
+2. Involve domain experts to ensure accuracy.
+3. Document any customizations you make.
+4. Regularly review and update your models.
+5. Use Visuo's AI-generated insights to identify areas for improvement.
+
+## Creating Custom Semantic Models
+
+For unique industries or use cases:
+
+1. Identify key entities in your domain.
+2. Define important attributes for each entity.
+3. Establish relationships between entities.
+4. Specify key metrics for your business.
+5. Implement your model using Visuo's Business Context feature.
+6. Test and refine based on results and feedback.
+
+## Conclusion
+
+These semantic model templates provide a strong foundation for AI-driven data exploration in Visuo. By customizing these templates to your specific needs, you can quickly set up a framework that enables Visuo's AI to generate accurate and relevant insights.

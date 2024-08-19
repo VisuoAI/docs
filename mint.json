@@ -40,7 +40,11 @@
     "navigation": [
         {
             "group": "Essentials",
-            "pages": ["essentials/context", "essentials/semantic-models"]
+            "pages": [
+                "essentials/context",
+                "essentials/semantic-models",
+                "essentials/kpis"
+            ]
         },
         {
             "group": "Guides",

@@ -1,0 +1,185 @@
+---
+title: "KPI Templates for Business Context in Visuo"
+description: "A comprehensive guide to using and customizing KPI templates in Visuo for various business domains"
+icon: "chart-line"
+---
+
+import { Tabs, Tab } from "nextra/components";
+import { Callout } from "nextra/components";
+
+# KPI Templates for Business Context in Visuo
+
+These KPI templates provide a structured framework for defining key performance indicators specific to different business domains in Visuo. They serve as a starting point for creating effective Business Contexts with relevant metrics.
+
+<Callout type="info">
+    Using these templates can significantly reduce the time and effort required
+    to set up meaningful KPIs, ensuring that Visuo's AI has the necessary
+    context to perform effective data analysis and reporting.
+</Callout>
+
+## KPI Templates for Various Domains
+
+Here are templates for creating KPIs in various business domains:
+
+<Tabs items={['E-commerce', 'Financial Services', 'Healthcare', 'Human Resources', 'Manufacturing']}>
+  <Tab title='E-commerce'>
+    ### E-commerce KPI Template
+
+    ```yaml
+    Domain: E-commerce
+    KPIs:
+      - Customer Acquisition:
+          - [NEW_CUSTOMERS]: Number of new customers
+          - [CUSTOMER_ACQUISITION_COST]: Total marketing spend / [NEW_CUSTOMERS]
+      - Sales Performance:
+          - [TOTAL_REVENUE]: Sum of all order values
+          - [AVERAGE_ORDER_VALUE]: [TOTAL_REVENUE] / Total number of orders
+          - [CONVERSION_RATE]: Number of purchases / Number of website visits
+      - Customer Retention:
+          - [CUSTOMER_LIFETIME_VALUE]: Average customer total spend over their lifetime
+          - [REPEAT_PURCHASE_RATE]: Number of repeat customers / Total customers
+      - Inventory Management:
+          - [INVENTORY_TURNOVER]: Cost of goods sold / Average inventory value
+          - [OUT_OF_STOCK_RATE]: Number of out-of-stock incidents / Total product count
+    ```
+
+    This template is ideal for online retailers, marketplaces, and digital storefronts.
+
+    <Callout type="tip">
+      Consider adding KPIs for customer satisfaction, such as Net Promoter Score (NPS) or customer support response times.
+    </Callout>
+
+  </Tab>
+  
+  <Tab title='Financial Services'>
+    ### Financial Services KPI Template
+
+    ```yaml
+    Domain: Financial Services
+    KPIs:
+      - Profitability:
+          - [RETURN_ON_ASSETS]: Net income / Total assets
+          - [NET_INTEREST_MARGIN]: (Interest income - Interest expense) / Average earning assets
+      - Risk Management:
+          - [NON_PERFORMING_LOAN_RATIO]: Non-performing loans / Total loans
+          - [CAPITAL_ADEQUACY_RATIO]: (Tier 1 capital + Tier 2 capital) / Risk-weighted assets
+      - Operational Efficiency:
+          - [COST_TO_INCOME_RATIO]: Operating expenses / Operating income
+          - [REVENUE_PER_EMPLOYEE]: Total revenue / Number of employees
+      - Customer Metrics:
+          - [CUSTOMER_RETENTION_RATE]: (Customers at end of period - New customers) / Customers at start of period
+          - [CROSS_SELL_RATIO]: Number of products per customer
+    ```
+
+    This template is suitable for banks, investment firms, and fintech companies.
+
+    <Callout type="tip">
+      Consider adding KPIs for digital adoption rates or customer satisfaction scores to track the success of digital transformation efforts.
+    </Callout>
+
+  </Tab>
+
+  <Tab title='Healthcare'>
+    ### Healthcare KPI Template
+
+    ```yaml
+    Domain: Healthcare
+    KPIs:
+      - Patient Care:
+          - [PATIENT_SATISFACTION_SCORE]: Average of patient survey responses
+          - [READMISSION_RATE]: Number of readmissions / Total admissions
+      - Operational Efficiency:
+          - [BED_OCCUPANCY_RATE]: Number of occupied bed days / (Available beds * Number of days in period)
+          - [AVERAGE_LENGTH_OF_STAY]: Total patient days / Total admissions
+      - Financial Performance:
+          - [OPERATING_MARGIN]: (Operating revenue - Operating expenses) / Operating revenue
+          - [DAYS_IN_ACCOUNTS_RECEIVABLE]: (Accounts receivable / Annual revenue) * 365
+      - Quality of Care:
+          - [HOSPITAL_ACQUIRED_INFECTION_RATE]: Number of HAIs / Total patient days
+          - [MEDICATION_ERROR_RATE]: Number of medication errors / Total medications administered
+    ```
+
+    This template is designed for hospitals, clinics, and healthcare management systems.
+
+    <Callout type="tip">
+      Consider adding KPIs for staff satisfaction or telehealth adoption rates to get a more comprehensive view of your healthcare operations.
+    </Callout>
+
+  </Tab>
+
+  <Tab title='Human Resources'>
+    ### Human Resources KPI Template
+
+    ```yaml
+    Domain: Human Resources
+    KPIs:
+      - Recruitment:
+          - [TIME_TO_HIRE]: Average days from job posting to offer acceptance
+          - [COST_PER_HIRE]: Total recruitment costs / Number of hires
+      - Employee Performance:
+          - [EMPLOYEE_PERFORMANCE_SCORE]: Average of employee performance ratings
+          - [REVENUE_PER_EMPLOYEE]: Total revenue / Number of employees
+      - Retention:
+          - [EMPLOYEE_TURNOVER_RATE]: Number of employees who left / Average number of employees
+          - [RETENTION_RATE]: (Employees at end of period - New hires) / Employees at start of period
+      - Training and Development:
+          - [TRAINING_COST_PER_EMPLOYEE]: Total training costs / Number of employees
+          - [TRAINING_RETURN_ON_INVESTMENT]: (Monetary benefits of training - Training costs) / Training costs
+    ```
+
+    This template is ideal for HR departments and workforce management systems.
+
+    <Callout type="tip">
+      Consider adding KPIs for diversity and inclusion metrics or employee engagement scores to get a more holistic view of your workforce.
+    </Callout>
+
+  </Tab>
+
+  <Tab title='Manufacturing'>
+    ### Manufacturing KPI Template
+
+    ```yaml
+    Domain: Manufacturing
+    KPIs:
+      - Production Efficiency:
+          - [OVERALL_EQUIPMENT_EFFECTIVENESS]: (Availability * Performance * Quality)
+          - [PRODUCTION_CYCLE_TIME]: Total production time / Number of units produced
+      - Quality Control:
+          - [DEFECT_RATE]: Number of defective units / Total units produced
+          - [FIRST_PASS_YIELD]: Number of good units / Total units entering the process
+      - Inventory Management:
+          - [INVENTORY_TURNOVER]: Cost of goods sold / Average inventory value
+          - [DAYS_OF_INVENTORY]: (Average inventory / Cost of goods sold) * 365
+      - Maintenance:
+          - [MEAN_TIME_BETWEEN_FAILURES]: Total operational time / Number of failures
+          - [MAINTENANCE_COST]: Total maintenance costs / Total production costs
+    ```
+
+    This template is designed for manufacturing companies and production management systems.
+
+    <Callout type="tip">
+      Consider adding KPIs for sustainability metrics or supply chain efficiency to create a more comprehensive manufacturing analytics model.
+    </Callout>
+
+  </Tab>
+</Tabs>
+
+## Using KPI Templates in Visuo
+
+These templates provide a starting point for creating KPI models in various domains. To use these templates effectively in Visuo:
+
+1. **Select Your Domain**: Choose a template that matches your business domain from the user interface.
+
+2. **Map Your Data**: Replace placeholder metric names (e.g., [TOTAL_REVENUE]) with your actual database column or calculation names.
+
+3. **Customize**: Add or modify KPIs and their calculations as needed for your specific use case.
+
+4. **Implement**: Use the completed template to generate appropriate prompts for Visuo's AI, guiding it in understanding your key performance indicators and business objectives.
+
+5. **Save and Reuse**: Save your customized KPI templates for future use, allowing you to create domain-specific models for your organization.
+
+<Callout type="info">
+    By using these templates, you can significantly reduce the time and effort
+    required to create meaningful KPI models, while ensuring that Visuo's AI has
+    the necessary context to perform effective data analysis and reporting.
+</Callout>

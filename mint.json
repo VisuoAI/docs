@@ -43,7 +43,12 @@
             "pages": [
                 "essentials/context",
                 "essentials/semantic-models",
-                "essentials/kpis"
+                "essentials/kpis",
+                "essentials/chart-customizations",
+                "essentials/connections",
+                "essentials/conversations",
+                "essentials/dashboards",
+                "essentials/troubleshooting"
             ]
         },
         {
@@ -56,6 +61,10 @@
                 "guides/mssql",
                 "guides/supabase"
             ]
+        },
+        {
+            "group": "Changelog",
+            "pages": ["changelog/latest"]
         }
     ],
     "footerSocials": {

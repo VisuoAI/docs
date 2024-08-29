@@ -43,12 +43,7 @@
             "pages": [
                 "essentials/context",
                 "essentials/semantic-models",
-                "essentials/kpis",
-                "essentials/chart-customizations",
-                "essentials/connections",
-                "essentials/conversations",
-                "essentials/dashboards",
-                "essentials/troubleshooting"
+                "essentials/kpis"
             ]
         },
         {
